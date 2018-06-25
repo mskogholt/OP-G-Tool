@@ -39,7 +39,7 @@ import models.WebBrowser;
  * @author martin.skogholt
  *
  */
-public class OfficePalace {
+public class OfficePalaceGToolRunner {
 
 	/**
 	 * @param args

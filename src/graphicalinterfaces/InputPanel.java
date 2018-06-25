@@ -111,8 +111,7 @@ public class InputPanel extends JPanel {
 				"http://www.google.es", 
 				"http://www.google.co.uk", 
 				"http://www.google.com", 
-				"http://www.google.fr",
-				"http://www.test.nl"
+				"http://www.google.fr"
 		};
 
 		crawlerSelect = new JComboBox<String>();
