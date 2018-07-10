@@ -14,8 +14,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JButton;
-import java.awt.Component;
-import javax.swing.Box;
+import java.awt.Font;
+
 import javax.swing.JProgressBar;
 
 public class MessagePanel extends JPanel {
@@ -74,29 +74,25 @@ public class MessagePanel extends JPanel {
 	 * Create the panel.
 	 */
 	public MessagePanel() {
-		setLayout(new MigLayout("", "[][][]", "[][][][][][][]"));
+		setLayout(new MigLayout("fillx", "[grow]", "[][][][grow][]"));
 
-		int strutSize = 60;
-		Component verticalStrut = Box.createVerticalStrut(strutSize);
-		add(verticalStrut, "cell 1 0,aligny top");
+		Font font = new Font("Sylfaen",Font.PLAIN, 18);
 
-		status = new JLabel("");
-		add(status, "cell 1 1");
+		status = new JLabel("Initializing.....");
+		status.setFont(font);
+		add(status, "cell 0 0");
 
-		Component horizontalStrut = Box.createHorizontalStrut(strutSize);
-		add(horizontalStrut, "cell 0 2,alignx left");
-
-		message = new JLabel("");
-		add(message, "cell 1 2,growx,alignx left,aligny top");
+		message = new JLabel("1 2 3 ...");
+		message.setFont(font);
+		add(message, "cell 0 2,alignx left, width 400::");
 
 		progressBar = new JProgressBar();
 		progressBar.setIndeterminate(true);
-		add(progressBar, "cell 1 3");
-
-		Component verticalStrut_2 = Box.createVerticalStrut(20);
-		add(verticalStrut_2, "cell 1 4");
+		progressBar.setFont(font);
+		add(progressBar, "cell 0 1");
 
 		JButton cancel = new JButton("Cancel...");
+		cancel.setFont(font);
 		cancel.addActionListener(new ActionListener() {
 
 			@Override
@@ -105,14 +101,7 @@ public class MessagePanel extends JPanel {
 			}
 
 		});
-		add(cancel, "cell 1 5,growx");
-
-		Component horizontalStrut_1 = Box.createHorizontalStrut(strutSize);
-		add(horizontalStrut_1, "cell 2 5,alignx right");
-
-		Component verticalStrut_1 = Box.createVerticalStrut(strutSize);
-		add(verticalStrut_1, "cell 1 6,aligny bottom");
-
+		add(cancel, "cell 0 4,alignx right");
 	}
 
 	public boolean isCancelled() {
@@ -125,6 +114,9 @@ public class MessagePanel extends JPanel {
 				progressBar.setIndeterminate(false);
 				progressBar.setMaximum(100);
 				progressBar.setStringPainted(true);
+				try {
+					((Window) this.getTopLevelAncestor()).pack();
+				} catch (Exception e) {}
 			}
 			if(prog>=0 && prog<=100) {
 				progressBar.setValue(prog);
@@ -135,18 +127,12 @@ public class MessagePanel extends JPanel {
 	public void setStatus(String message) {
 		synchronized(status) {
 			this.status.setText(message);
-			try {
-				((Window) this.getTopLevelAncestor()).pack();
-			} catch (Exception e) {}
 		}
 	}
 
 	public void setMessage(String message) {
 		synchronized(message) {
 			this.message.setText(message);
-			try {
-				((Window) this.getTopLevelAncestor()).pack();
-			} catch (Exception e) {}
 		}
 	}
 }
