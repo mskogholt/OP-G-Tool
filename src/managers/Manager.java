@@ -104,6 +104,7 @@ public class Manager implements Callable<Boolean>{
 			for(Task<Result> task : tasks) {
 
 				if(task.isDone()) {
+					counter++;
 
 					try {
 
@@ -120,8 +121,6 @@ public class Manager implements Callable<Boolean>{
 							writer.write(result.serialize());
 							writer.newLine();
 						}
-
-						counter++;
 
 					} catch (Exception e) {
 						if(task.getAttempts()<maxAttempts) {
@@ -200,6 +199,7 @@ public class Manager implements Callable<Boolean>{
 			for(Task<ArrayList<String>> task : tasks) {
 
 				if(task.isDone()) {
+					counter++;
 
 					try {
 
@@ -208,10 +208,9 @@ public class Manager implements Callable<Boolean>{
 							queryMapper.put(link, task.getQuery());
 						}
 						links.addAll(results);
-						counter++;
 
 					} catch (Exception e) {
-
+						System.out.println(e);
 						if(task.getAttempts()<maxAttempts) {
 							LinkWorker worker = LinkWorkerFactory.getLinkWorker(task.getQuery(), site, proxies, gen, termination, messenger);
 							Future<ArrayList<String>> future = executor.submit(worker);

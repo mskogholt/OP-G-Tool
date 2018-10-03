@@ -47,8 +47,11 @@ public class LinkWorkerGoogle extends LinkWorker{
 		while(urls.size()<1 && tries<10) {
 			try {
 				messenger.setMessage("Starting attempt " + (tries+1) + " out of 10");
+				Thread.sleep(1000);
 				urls.addAll(this.getUrls(this.googleSearch(queryText)));
-			} catch (Exception e) {}
+			} catch (Exception e) {
+				System.out.println(e);
+			}
 			finally {
 				tries++;
 			}
@@ -144,7 +147,7 @@ public class LinkWorkerGoogle extends LinkWorker{
 			messenger.setMessage("Trying to connect with proxy...");
 
 			DomElement goButton = ProxyManager.getProxy(web, link, site);
-			
+
 			messenger.setMessage("Proxy Connected!");
 
 			HtmlPage page = goButton.click();
@@ -240,7 +243,7 @@ public class LinkWorkerGoogle extends LinkWorker{
 				} catch (MalformedURLException error){}
 			}
 		}
-		
+
 		ArrayList<String> urlList = new ArrayList<String>();
 		urlList.addAll(urlSet);
 		return urlList;

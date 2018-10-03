@@ -17,6 +17,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 
 import javax.swing.JProgressBar;
+import java.awt.Component;
+import javax.swing.Box;
 
 public class MessagePanel extends JPanel {
 
@@ -28,6 +30,8 @@ public class MessagePanel extends JPanel {
 	private JLabel status;
 	private JProgressBar progressBar;
 	private boolean cancelled = false;
+	private Component horizontalStrut;
+	private Component verticalStrut;
 	
 	public static void main(String[] args) {
 
@@ -74,22 +78,28 @@ public class MessagePanel extends JPanel {
 	 * Create the panel.
 	 */
 	public MessagePanel() {
-		setLayout(new MigLayout("fillx", "[grow]", "[][][][grow][]"));
+		setLayout(new MigLayout("fillx", "[][grow]", "[][][][][grow][]"));
 
 		Font font = new Font("Sylfaen",Font.PLAIN, 18);
+		
+		verticalStrut = Box.createVerticalStrut(40);
+		add(verticalStrut, "cell 1 0");
 
 		status = new JLabel("Initializing.....");
 		status.setFont(font);
-		add(status, "cell 0 0");
+		add(status, "cell 1 1,alignx left");
+		
+		horizontalStrut = Box.createHorizontalStrut(40);
+		add(horizontalStrut, "cell 0 2");
 
 		message = new JLabel("1 2 3 ...");
 		message.setFont(font);
-		add(message, "cell 0 2,alignx left, width 400::");
+		add(message, "cell 1 3,wmin 600,alignx left");
 
 		progressBar = new JProgressBar();
 		progressBar.setIndeterminate(true);
 		progressBar.setFont(font);
-		add(progressBar, "cell 0 1");
+		add(progressBar, "cell 1 2,alignx left");
 
 		JButton cancel = new JButton("Cancel...");
 		cancel.setFont(font);
@@ -101,7 +111,7 @@ public class MessagePanel extends JPanel {
 			}
 
 		});
-		add(cancel, "cell 0 4,alignx right");
+		add(cancel, "cell 1 5,alignx right");
 	}
 
 	public boolean isCancelled() {
